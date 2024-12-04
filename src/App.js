@@ -1,7 +1,7 @@
 import React from 'react';
 // import { Counter } from './features/counter/Counter';
 import './App.css';
-import ProductList from './features/product-list/ProductList';
+import ProductList from './features/product-list/components/ProductList';
 import Home from './pages/Home';
 import Loginpage from './pages/Loginpage';
 import Cartpage from './pages/Cartpage';
@@ -14,6 +14,8 @@ import {
 } from "react-router-dom";
 import Cart from './features/cart/Cart';
 import CheckOut from './pages/CheckOut';
+// import ProductDetailpage from './features/product-list/components/ProductsDetail';
+import ProductDetailpage from './pages/ProductDetailpage';
 
 const router = createBrowserRouter([
   {
@@ -42,6 +44,12 @@ const router = createBrowserRouter([
     path: "/checkout",
     element: (
       <CheckOut />
+    ),
+  },
+  {
+    path: "/product-detail",
+    element: (
+      <ProductDetailpage />
     ),
   }
 ]);

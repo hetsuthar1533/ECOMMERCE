@@ -69,10 +69,10 @@ function CheckOut() {
             <div className='mx-auto max-w-7xl px sm:px-6 lg:px-8'>
                 <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
                     <div className='lg:col-span-3'>
-                        <form className='bg-white'>
+                        <form className='bg-white px-5 py-12 mt-12'>
                             <div className='space-y-12'>
                                 <div className="border-b border-gray-900/10 pb-12">
-                                    <h2 className="text-base/7 font-semibold text-gray-900">addressal Information</h2>
+                                    <h2 className=" text-2xl font-semibold text-gray-900">Personal Information</h2>
                                     <p className="mt-1 text-sm/6 text-gray-600">Use a permanent address where you can receive mail.</p>
 
                                     <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -204,16 +204,33 @@ function CheckOut() {
                                         </div>
                                     </div>
                                 </div>
+                                <div className="mt-6 flex items-center justify-end gap-x-6">
+                                    <button type="button" className="text-sm/6 font-semibold text-gray-900">
+                                        Reset
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    >
+                                        Add Address
+                                    </button>
+                                </div>
 
                                 <div className="border-b border-gray-900/10 pb-12">
                                     <h2 className="text-base/7 font-semibold text-gray-900">Address</h2>
                                     <p className="mt-1 text-sm/6 text-gray-600">
                                         Choose From Exitsting address
                                     </p>
-                                    <ul role="list" className="divide-y divide-gray-100">
+                                    <ul role="list" className="">
                                         {addresses.map((address) => (
-                                            <li key={address.email} className="flex justify-between gap-x-6 py-5">
+                                            <li key={address.email} className="flex justify-between gap-x-6 px-5 py-5 border-solid border-2 border-2 border-gray">
                                                 <div className="flex min-w-0 gap-x-4">
+                                                <input
+                                                        // defaultChecked
+                                                        name='address'
+                                                        type="radio"
+                                                        className="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden"
+                                                    />
                                                     <div className="min-w-0 flex-auto">
                                                         <p className="text-sm/6 font-semibold text-gray-900">{address.name}</p>
                                                         <p className="mt-1 truncate text-xs/5 text-gray-500">{address.street}</p>
@@ -230,6 +247,8 @@ function CheckOut() {
                                             </li>
                                         ))}
                                     </ul>
+                                    
+                              
                                     <div className="mt-10 space-y-10">
 
 
@@ -267,17 +286,6 @@ function CheckOut() {
                                 </div>
 
 
-                                <div className="mt-6 flex items-center justify-end gap-x-6">
-                                    <button type="button" className="text-sm/6 font-semibold text-gray-900">
-                                        Cancel
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                    >
-                                        Save
-                                    </button>
-                                </div>
                             </div>
                         </form>
                     </div>
@@ -340,11 +348,11 @@ function CheckOut() {
                                 </div>
                                 <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                                 <div className="mt-6">
-                                    <Link to='/checkout'
+                                    <Link to='/pay'
 
                                         className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                                     >
-                                        Checkout
+                                        Pay and order
                                     </Link>
                                 </div>
                                 <div className="mt-6 flex justify-center text-center text-sm text-gray-500">

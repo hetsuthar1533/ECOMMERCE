@@ -62,7 +62,7 @@ const products = [
 function CheckOut() {
 
     const [open, setOpen] = useState(true)
-    const count = useSelector(selectCount);
+    // const count = useSelector(selectCount);
     const dispatch = useDispatch();
     return (
         <>

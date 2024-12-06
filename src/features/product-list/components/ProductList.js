@@ -18,7 +18,7 @@ import { ChevronDownIcon, StarIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2I
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchAllProductsAsync, fetchAllProductsByFilterAsync, selectAllProducts } from '../productSlice';
-
+import { addToCart } from '../../cart/cartSlice';
 const sortOptions = [
   { name: 'Best Rating', sort: '-rating', order: 'desc', current: false },
   { name: 'Price: Low to High', sort: 'price', order: 'asc', current: false },
@@ -120,6 +120,16 @@ export default function ProductList() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const products = useSelector(selectAllProducts);
   const [filter, setFilter] = useState({})
+  //  const products = useSelector(selectAllProducts); 
+  useEffect(() => { dispatch(fetchAllProductsAsync()); }, [dispatch]);
+
+
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+    alert('Added to cart');
+  };
+
+
   const handleFilter = (e, section, option) => {
     //  e.preventDefault();
     const newFilter = { ...filter, [section.id]: option.value }
@@ -141,6 +151,7 @@ export default function ProductList() {
     console.log({ _sort: option.sort, _order: option.order })
 
   }
+
   useEffect(() => {
     dispatch(fetchAllProductsAsync())
   }, [dispatch])
@@ -368,46 +379,55 @@ export default function ProductList() {
                   </form>
 
                   {/* Product grid */}
+
                   <div className="lg:col-span-3"> <div className="bg-white">
                     <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6 sm:py-0 lg:max-w-7xl lg:px-8">
 
                       <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
                         {products.map((product) => (
-                          <Link to='/product-detail'>
-                            <div key={product.id} className="group relative border-solid border-width">
-                              <img
-                                alt={product.title}
-                                src={product.thumbnail}
-                                className="aspect-square w-full rounded-md bg-gray-200 object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80"
-                              />
-                              <div className="mt-4 flex justify-between">
-                                <div>
-                                  <h3 className="text-sm text-gray-700">
-                                    <a href={product.thumbnail}>
-                                      <span aria-hidden="true" className="absolute inset-0" />
-                                      {product.title}
-                                    </a>
-                                  </h3>
+                          <div>
+                            <Link to='/product-detail'>
+                              <div key={product.id} className="group relative border-solid border-width">
+                                <img
+                                  alt={product.title}
+                                  src={product.thumbnail}
+                                  className="aspect-square w-full rounded-md bg-gray-200 object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80"
+                                />
+                                <div className="mt-4 flex justify-between">
+                                  <div>
+                                    <h3 className="text-sm text-gray-700">
+                                      <a href={product.thumbnail}>
+                                        <span aria-hidden="true" className="absolute inset-0" />
+                                        {product.title}
+                                      </a>
+                                    </h3>
 
-                                  <p className="mt-1 text-sm text-gray-500">
-                                    <StarIcon className='w-6 h-6 inline' />
-                                    <span className='align-bottom'> {product.rating} </span>
-                                  </p>
-                                </div>
-                                <div>
-                                  <p className="text-sm font-medium  text-gray-900">
-                                    ${Math.round(product.price * (1 - product.discountPercentage / 100))}
-                                  </p>
-                                  <p className="text-sm  line-through font-medium text-gray-400">
-                                    ${product.price}
-                                  </p>
+                                    <p className="mt-1 text-sm text-gray-500">
+                                      <StarIcon className='w-6 h-6 inline' />
+                                      <span className='align-bottom'> {product.rating} </span>
+                                    </p>
+                                  </div>
+                                  <div>
+                                    <p className="text-sm font-medium  text-gray-900">
+                                      ${Math.round(product.price * (1 - product.discountPercentage / 100))}
+                                    </p>
+                                    <p className="text-sm  line-through font-medium text-gray-400">
+                                      ${product.price}
+                                    </p>
+
+                                  </div>
 
                                 </div>
 
                               </div>
-                            </div></Link>
+
+                            </Link>
+                            <button onClick={() => handleAddToCart(product)} className="mt-2 w-full bg-blue-500 text-white py-2 px-4 rounded" >
+                              Add to Cart </button>
+                          </div>
                         ))}
                       </div>
+
                     </div>
                   </div>
                   </div>

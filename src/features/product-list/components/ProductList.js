@@ -20,10 +20,11 @@ import { Link } from 'react-router-dom';
 import { fetchAllProductsAsync, fetchAllProductsByFilterAsync, selectAllProducts } from '../productSlice';
 
 const sortOptions = [
-  { name: 'Best Rating', sort: 'rating', current: false },
-  { name: 'Price: Low to High', sort: 'price', current: false },
-  { name: 'Price: High to Low', sort: 'price', current: false },
-]
+  { name: 'Best Rating', sort: '-rating', order: 'desc', current: false },
+  { name: 'Price: Low to High', sort: 'price', order: 'asc', current: false },
+  { name: 'Price: High to Low', sort: '-price', order: 'desc', current: false },
+];
+
 
 const filters = [
   {
@@ -106,6 +107,7 @@ const filters = [
   }
 ]
 
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
@@ -117,15 +119,27 @@ export default function ProductList() {
   const dispatch = useDispatch();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const products = useSelector(selectAllProducts);
-  const [filter,setFilter] = useState({})
-  const handleFilter = (e,section,option)=>{
-        //  e.preventDefault();
-         const newFilter = {...filter,[section.id]: option.value}
-         setFilter(newFilter);
-    
-         dispatch(fetchAllProductsByFilterAsync(newFilter))
-         console.log(section.id,option.value)
-        
+  const [filter, setFilter] = useState({})
+  const handleFilter = (e, section, option) => {
+    //  e.preventDefault();
+    const newFilter = { ...filter, [section.id]: option.value }
+    setFilter(newFilter);
+
+    dispatch(fetchAllProductsByFilterAsync(newFilter))
+    console.log(section.id, option.value)
+
+  }
+  const handleSort = (e, option) => {
+    e.preventDefault();
+    const newFilter = { ...filter, _sort: option.sort }
+
+    setFilter(newFilter)
+
+    dispatch(fetchAllProductsByFilterAsync(newFilter))
+
+
+    console.log({ _sort: option.sort, _order: option.order })
+
   }
   useEffect(() => {
     dispatch(fetchAllProductsAsync())
@@ -186,7 +200,7 @@ export default function ProductList() {
                                   <div className="group grid size-4 grid-cols-1">
                                     <input
                                       defaultValue={option.value}
-                                      onChange={e=>handleFilter(e,section,option)}
+                                      onChange={e => handleFilter(e, section, option)}
 
                                       id={`filter-mobile-${section.id}-${optionIdx}`}
                                       name={`${section.id}[]`}
@@ -257,6 +271,7 @@ export default function ProductList() {
                           <MenuItem key={option.name}>
                             <a
                               href={option.href}
+                              onClick={(e) => handleSort(e, option)}
                               className={classNames(
                                 option.current ? 'font-medium text-gray-900' : 'text-gray-500',
                                 'block px-4 py-2 text-sm data-[focus]:bg-gray-100 data-[focus]:outline-none',
@@ -313,7 +328,7 @@ export default function ProductList() {
                                     <input
                                       defaultValue={option.value}
                                       defaultChecked={option.checked}
-                                      onChange={e=>handleFilter(e,section,option)}
+                                      onChange={e => handleFilter(e, section, option)}
                                       id={`filter-${section.id}-${optionIdx}`}
                                       name={`${section.id}[]`}
                                       type="checkbox"
